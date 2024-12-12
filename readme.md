@@ -174,7 +174,7 @@ If you haven't yet, now would be a good moment to push
   - `node tasks.js`, then the default file to load and to save to is "database.json"
   - but if I run `node tasks.js blah.json`, then the file to load and to save would be "blah.json"
   - this allows the user to have multiple lists
-5. commit ("configurable save file") <kbd>🔑🔑🔑🔑🔑</kbd>
+5. commit ("configurable save file")
 
 If you haven't yet, now would be a good moment to push
 
