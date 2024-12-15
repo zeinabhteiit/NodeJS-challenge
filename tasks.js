@@ -34,13 +34,13 @@ function startApp(name){
  * @returns {void}
  */
 function onDataReceived(text) {
-  // console.log('received input:',text); 
-  text= text.trim();                   // remove any leading spaces and newline charact
+  console.log('received input : ', text);
+  text= text.trim();   // remove  spaces and line breaks
   if (text === 'quit' || text ==='exit') {
     quit();
   }
-  else if(text === 'hello'){
-    hello();
+  else if(text.startsWith ('hello') ) {
+    hello(text);
   }
   else if (text === 'help'){
     help();
@@ -68,9 +68,15 @@ function unknownCommand(c){
  *
  * @returns {void}
  */
-function hello(){
-  console.log('hello!');
-}
+function hello(text){
+  const parts = text.trim().split(" ");
+   const name = parts.slice(1).join(" ");
+  if (name){
+    console.log(`hello ${name}!`);
+  } else {
+      console.log('hello!');
+    }
+  }
 
 
 /**
@@ -84,8 +90,11 @@ function quit(){
 }
 
  /*
-@returns {void}
-*/
+ *lists all available commands for the user.
+ *this func prints a list of the commands and their descriptions.
+ *
+ * @returns {void}
+ */
 function help(){
   console.log('available command: 1. hello-prints hello  2. quit or exit - exits the application  3. help-displays this help message ');
   }
