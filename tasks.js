@@ -48,8 +48,11 @@ function onDataReceived(text) {
   else if (text ==="list") {
     list();
   }
-  else if (text.startsWith ('add')){
+  else if (text.startsWith ('add') ) {
   add(text); // call fun if input starts with add
+  }
+  else if (text.startsWith ('remove') ) {
+  remove(text);
   }
   else{
     unknownCommand(text);
@@ -102,7 +105,16 @@ function quit(){
  * @returns {void}
  */
 function help(){
-  console.log('available command: 1. hello-prints hello  2.hello <name> - prints "hello <namme> !" 3. quit or exit - exits the application  4. help-displays this help message 5.list- lists all tasks');
+  console.log(`available command:
+      1. hello - prints hello  
+      2. hello <name> - prints "hello <namme> !"
+      3. quit or exit - exits the application
+      4. help - displays this help message
+      5. list - lists all tasks
+      6. add <task> - adds a new task to the list
+      7. remove - removes the last task in the list
+      8. remove <task number> - removes the task at the given position
+  `);
   }
 
 let tasks = []; //initialize some tasks
@@ -130,6 +142,21 @@ function add(text){
   }
 }
 
+
+function remove(text){
+  const parts = text.trim().split(' '); // split the input
+  const index = parts[1];
+  if(tasks.length === 0) {
+    console.log('error'); // if is 0 error no task to remove
+  } else if  (!index){   // if rmv cmd has no additionl arg remove the last task
+    console.log(`removed task: ${tasks.pop() } `);
+  }else if ( index > 0 && index <= tasks.length ) {  
+    console.log(`removed task: ${task.splice(index -1, 1) } `);
+  } else{
+    console.log(`error`);
+  }
+  }  
+ 
 
 // The following line starts the application
 startApp("zeinab hoteit")
