@@ -34,13 +34,16 @@ function startApp(name){
  * @returns {void}
  */
 function onDataReceived(text) {
-  console.log('received input:',text); // debugging line
+  // console.log('received input:',text); 
   text= text.trim();                   // remove any leading spaces and newline charact
   if (text === 'quit' || text ==='exit') {
     quit();
   }
   else if(text === 'hello'){
     hello();
+  }
+  else if (text === 'help'){
+    help();
   }
   else{
     unknownCommand(text);
@@ -80,5 +83,14 @@ function quit(){
   process.exit();
 }
 
+ /*
+@returns {void}
+*/
+function help(){
+  console.log('available command: 1. hello-prints hello  2. quit or exit - exits the application  3. help-displays this help message ');
+  }
+
 // The following line starts the application
 startApp("zeinab hoteit")
+
+
