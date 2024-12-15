@@ -44,6 +44,9 @@ function onDataReceived(text) {
   }
   else if (text === 'help'){
     help();
+  } 
+  else if (text ==="list") {
+    list();
   }
   else{
     unknownCommand(text);
@@ -96,8 +99,22 @@ function quit(){
  * @returns {void}
  */
 function help(){
-  console.log('available command: 1. hello-prints hello  2.hello <name> - prints "hello <namme> !" 3. quit or exit - exits the application  4. help-displays this help message ');
+  console.log('available command: 1. hello-prints hello  2.hello <name> - prints "hello <namme> !" 3. quit or exit - exits the application  4. help-displays this help message 5.list- lists all tasks');
   }
+
+let tasks = ['task 1 ', 'task 2 ', 'task 3 ']; //initialize some tasks
+list();
+function list(){
+  if (tasks.length === 0){
+    console.log('no tasks to display');
+  } else {
+    console.log('task list:');
+    tasks.forEach((task, index ) => {
+    console.log (`${index}. ${task} `);
+    });
+  }
+}
+
 
 // The following line starts the application
 startApp("zeinab hoteit")
