@@ -48,6 +48,9 @@ function onDataReceived(text) {
   else if (text ==="list") {
     list();
   }
+  else if (text.startsWith ('add')){
+  add(text); // call fun if input starts with add
+  }
   else{
     unknownCommand(text);
   }
@@ -73,7 +76,7 @@ function unknownCommand(c){
  */
 function hello(text){
   const parts = text.trim().split(" ");
-   const name = parts.slice(1).join(" ");
+  const name = parts.slice(1).join(" ");
   if (name){
     console.log(`hello ${name}!`);
   } else {
@@ -102,8 +105,8 @@ function help(){
   console.log('available command: 1. hello-prints hello  2.hello <name> - prints "hello <namme> !" 3. quit or exit - exits the application  4. help-displays this help message 5.list- lists all tasks');
   }
 
-let tasks = ['task 1 ', 'task 2 ', 'task 3 ']; //initialize some tasks
-list();
+let tasks = []; //initialize some tasks
+
 function list(){
   if (tasks.length === 0){
     console.log('no tasks to display');
@@ -112,6 +115,18 @@ function list(){
     tasks.forEach((task, index ) => {
     console.log (`${index}. ${task} `);
     });
+  }
+}
+
+
+function add(text){
+  const parts = text.trim().split(' '); // split input text
+  const task = parts.slice(1).join(' '); //takes evrythng after the (add x)
+  if (task){
+     tasks.push(task); // add task to the list
+     console.log(`task added: ${task} `);
+  } else {
+     console.log('error');
   }
 }
 
