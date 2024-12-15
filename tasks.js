@@ -34,10 +34,12 @@ function startApp(name){
  * @returns {void}
  */
 function onDataReceived(text) {
-  if (text === 'quit\n') {
+  console.log('received input:',text); // debugging line
+  text= text.trim();                   // remove any leading spaces and newline charact
+  if (text === 'quit' || text ==='exit') {
     quit();
   }
-  else if(text === 'hello\n'){
+  else if(text === 'hello'){
     hello();
   }
   else{
@@ -64,7 +66,7 @@ function unknownCommand(c){
  * @returns {void}
  */
 function hello(){
-  console.log('hello!')
+  console.log('hello!');
 }
 
 
@@ -74,7 +76,7 @@ function hello(){
  * @returns {void}
  */
 function quit(){
-  console.log('Quitting now, goodbye!')
+  console.log('Quitting now, goodbye!');
   process.exit();
 }
 
