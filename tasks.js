@@ -96,7 +96,7 @@ function quit(){
  * @returns {void}
  */
 function help(){
-  console.log('available command: 1. hello-prints hello  2. quit or exit - exits the application  3. help-displays this help message ');
+  console.log('available command: 1. hello-prints hello  2.hello <name> - prints "hello <namme> !" 3. quit or exit - exits the application  4. help-displays this help message ');
   }
 
 // The following line starts the application
