@@ -57,6 +57,12 @@ function onDataReceived(text) {
   else if (text.startsWith ('edit') ) {
   edit(text);
   }
+  else if (text.startsWith ('check') ) {
+  check(text);
+  }
+  else if (text.startsWith ('uncheck') ) {
+  uncheck(text);
+  }
   else{
     unknownCommand(text);
   }
@@ -117,6 +123,8 @@ function help(){
       6. add <task> - adds a new task to the list
       7. remove - removes the last task in the list
       8. remove <task number> - removes the task at the given position
+      9. check <task number> - marks the task as done
+      10. uncheck <task number> - mrks the task as undone
       
   `);
   }
@@ -195,7 +203,28 @@ function edit(text){
      }
 
      
-  
+function check(text) {
+    const parts = text.trim().split(' ');
+    const index = parseInt(parts[1]) - 1;
+    if (!isNaN(index) && index >= 0 && index < tasks.length) {
+      tasks[index].done = true;
+      console.log(`Task ${index + 1} marked as done.`);
+      } else {
+      console.log('Error: Invalid task number.');
+      }
+    }
+
+ function uncheck(text) {
+     const parts = text.trim().split(' ');
+     const index = parseInt(parts[1]) - 1;
+     if (!isNaN(index) && index >= 0 && index < tasks.length) {
+        tasks[index].done = false;
+        console.log(`Task ${index + 1} marked as undone. `);
+      } else {
+        console.log('Error: Invalid task number.');
+      }
+    }
+
 
 
 // The following line starts the application
