@@ -16,9 +16,19 @@ function startApp(name){
   process.stdin.resume();
   process.stdin.setEncoding('utf8');
   process.stdin.on('data', onDataReceived);
-  loadData();
+  // loadData();
   console.log(`Welcome to zeinab's application!`)
   console.log("--------------------")
+
+
+  try {
+    const data = fs.readFileSync(filepath, 'utf8'); // Read file content
+    tasks = JSON.parse(data); // Parse data into tasks array
+    console.log('Tasks loaded successfully.');
+  } catch (error) {
+    console.log(`No previous data found, starting fresh.`);
+    tasks = []; // Start with an empty list if the file does not exist
+  }
 }
 
 
@@ -106,11 +116,24 @@ function hello(text){
  *
  * @returns {void}
  */
-function quit(){
+/* function quit(){
   saveData(); // save to disk before quitting
   console.log('Quitting now, goodbye!');
   process.exit(); // exit app
-}
+} */
+
+  function quit() {
+    try {
+      fs.writeFileSync(filepath, JSON.stringify(tasks, null, 2)); // Save tasks to the file
+      console.log('Tasks saved successfully.');
+    } catch (error) {
+      console.log(`Error saving tasks: ${error.message} `);
+    }
+  
+    console.log('Quitting now, goodbye!');
+    process.exit();
+  }
+
 
  /*
  *lists all available commands for the user.
@@ -147,7 +170,7 @@ function list(){
     console.log('task list:');
     tasks.forEach((task, index ) => {  // prnting each task with its index
        const status = task.done ? '[✔]' : '[]' ; //done or undone
-       console.log (`${index +1}. ${status} . ${task} `); // prnts task with its nb
+       console.log (`${index +1}. ${status}  ${task.text} `); // prnts task with its nb
     });
   }
 }
@@ -155,7 +178,7 @@ function list(){
 
 function add(text){
   const parts = text.trim().split(' '); // split input text
-  const task = parts.slice(1).join(' '); //takes evrythng after the (add x)
+  const taskText = parts.slice(1).join(' '); //takes evrythng after the (add x)
   if (taskText){ 
      tasks.push( { text: taskText, done: false } ); 
      console.log(`task added: ${taskText} `); // prnts msg confrmng task was added
@@ -194,12 +217,12 @@ function edit(text){
     if (!index) { //input just edit
       console.log('Error ');
     } else if (!newTask && tasks.length > 0) {  //ther r existng tasks in the array
-      tasks[tasks.length - 1] = index; // updte last task in array
+      tasks[tasks.length - 1].text = index; // updte last task in array
       console.log(`Last task edited to: ${index} `);
     } else {
       const taskIndex = index -1; //cnvrts into 0-based indx
       if (taskIndex >= 0 && taskIndex < tasks.length) { //cheks  is a valid index
-      tasks[taskIndex] = newTask; // updt task at specified indx wth new tsk
+      tasks[taskIndex].text = newTask; // updt task at specified indx wth new tsk
       console.log(`Task ${index} edited to: ${newTask} `); 
       } else {  //out of bounds
       console.log(`error: task nb ${index} does not exist.`);
