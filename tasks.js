@@ -152,8 +152,8 @@ function add(text){
   const parts = text.trim().split(' '); // split input text
   const task = parts.slice(1).join(' '); //takes evrythng after the (add x)
   if (taskText){ 
-     tasks.push( { text: taskText, done: false } ); // adds task to the list
-     console.log(`task added: ${taskText} `); // prnts msg confrmng task was aded
+     tasks.push( { text: taskText, done: false } ); 
+     console.log(`task added: ${taskText} `); // prnts msg confrmng task was added
   } else { //no task dscrption is provided
      console.log('error');
   }
