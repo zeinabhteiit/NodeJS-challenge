@@ -13,6 +13,7 @@ function startApp(name){
   process.stdin.resume();
   process.stdin.setEncoding('utf8');
   process.stdin.on('data', onDataReceived);
+  loadData();
   console.log(`Welcome to zeinab's application!`)
   console.log("--------------------")
 }
@@ -103,6 +104,7 @@ function hello(text){
  * @returns {void}
  */
 function quit(){
+  saveData(); // save to disk before quitting
   console.log('Quitting now, goodbye!');
   process.exit(); // exit app
 }
@@ -225,6 +227,24 @@ function check(text) {
       }
     }
 
+const fs = require ('fs');
+
+function saveData() {
+  const data = JSON.stringify(tasks, null, 2); // Convert tasks array to JSON
+  fs.writeFileSync(filePath, data, 'utf8'); // Save data to file
+  console.log('Tasks saved to', filePath);
+}
+
+function loadData() {
+  try {
+      const data = fs.readFileSync(filePath, 'utf8'); // Read file content
+      tasks = JSON.parse(data); // Parse JSON data into the tasks array
+      console.log('Tasks loaded from', filePath);
+  } catch (error) {
+      console.log('No previous tasks found or error reading file:', error.message);
+      tasks = []; // Initialize with an empty array if file doesn't exist
+  }
+}
 
 
 // The following line starts the application
