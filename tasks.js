@@ -35,24 +35,27 @@ function startApp(name){
  */
 function onDataReceived(text) {
   console.log('received input : ', text);
-  text= text.trim();   // remove  spaces and line breaks
+  text= text.trim();   // remove  spaces and line breaks from beg and end
   if (text === 'quit' || text ==='exit') {
-    quit();
+    quit(); // if user types quit , call the quit fun
   }
-  else if(text.startsWith ('hello') ) {
+  else if(text.startsWith ('hello') ) { // if inpt strts with hello,call hello fun
     hello(text);
   }
-  else if (text === 'help'){
+  else if (text === 'help'){ // if inpt is help..
     help();
   } 
   else if (text ==="list") {
     list();
   }
   else if (text.startsWith ('add') ) {
-  add(text); // call fun if input starts with add
+  add(text); // call fun if inpt starts wth add
   }
   else if (text.startsWith ('remove') ) {
   remove(text);
+  }
+  else if (text.startsWith ('edit') ) {
+  edit(text);
   }
   else{
     unknownCommand(text);
@@ -78,9 +81,9 @@ function unknownCommand(c){
  * @returns {void}
  */
 function hello(text){
-  const parts = text.trim().split(" ");
-  const name = parts.slice(1).join(" ");
-  if (name){
+  const parts = text.trim().split(" "); // stores words frm users inpt as an array
+  const name = parts.slice(1).join(" "); //takes evrthg expt 1 word
+  if (name){ // if name provided aftr hello, greet usr with their name
     console.log(`hello ${name}!`);
   } else {
       console.log('hello!');
@@ -95,7 +98,7 @@ function hello(text){
  */
 function quit(){
   console.log('Quitting now, goodbye!');
-  process.exit();
+  process.exit(); // exit app
 }
 
  /*
@@ -107,25 +110,26 @@ function quit(){
 function help(){
   console.log(`available command:
       1. hello - prints hello  
-      2. hello <name> - prints "hello <namme> !"
+      2. hello <name> - prints "hello <name> !"
       3. quit or exit - exits the application
       4. help - displays this help message
       5. list - lists all tasks
       6. add <task> - adds a new task to the list
       7. remove - removes the last task in the list
       8. remove <task number> - removes the task at the given position
+      
   `);
   }
 
-let tasks = []; //initialize some tasks
+let tasks = []; //initialize empty array to store tasks\\
 
 function list(){
-  if (tasks.length === 0){
+  if (tasks.length === 0){ //if ther r no tasks
     console.log('no tasks to display');
-  } else {
+  } else { 
     console.log('task list:');
-    tasks.forEach((task, index ) => {
-    console.log (`${index}. ${task} `);
+    tasks.forEach((task, index ) => {  // prnting each task with its index
+    console.log (`${index}. ${task} `); // prnts task with its nb
     });
   }
 }
@@ -134,29 +138,55 @@ function list(){
 function add(text){
   const parts = text.trim().split(' '); // split input text
   const task = parts.slice(1).join(' '); //takes evrythng after the (add x)
-  if (task){
-     tasks.push(task); // add task to the list
-     console.log(`task added: ${task} `);
-  } else {
+  if (task){ 
+     tasks.push(task); // adds task to the list
+     console.log(`task added: ${task} `); // prnts msg confrmng task was aded
+  } else { //no task dscrption is provided
      console.log('error');
   }
 }
 
 
-function remove(text){
-  const parts = text.trim().split(' '); // split the input
-  const index = parts[1];
-  if(tasks.length === 0) {
-    console.log('error'); // if is 0 error no task to remove
-  } else if  (!index){   // if rmv cmd has no additionl arg remove the last task
-    console.log(`removed task: ${tasks.pop() } `);
-  }else if ( index > 0 && index <= tasks.length ) {  
-    console.log(`removed task: ${task.splice(index -1, 1) } `);
-  } else{
-    console.log(`error`);
+
+function remove(text) {
+    const parts = text.trim().split(' '); // Split input into parts
+    const index = parseInt(parts[1]) - 1; // Convert to 0-based index
+  
+    if (isNaN(index)) {   // If no valid index  provided, remove the last task
+       if (tasks.length > 0) {
+          console.log(`Removed task: ${tasks.pop() } ` );
+       } else {
+        console.log('Error: No tasks to remove.');
+       }
+    } else if (index >= 0 && index < tasks.length) {  // If the index is valid, remove the task at that index
+      console.log(`Removed task: ${tasks.splice(index, 1)} `);
+    } else {
+      console.log(`Error: Task number ${index + 1} does not exist.`);
+    }
   }
-  }  
- 
+
+
+function edit(text){
+    const parts = text.trim().split(' '); // Split input into parts
+    const index = parts[1]; 
+    const newTask = parts.slice(2).join(' '); 
+  
+    if (!index) {
+      console.log('Error: No task number or new text provided.');
+    } else if (!newTask && tasks.length > 0) {  // If only new text is provided, update the last task
+      tasks[tasks.length - 1] = index; // Update the last task to the new text
+      console.log(`Last task edited to: ${index} `);
+    } else {
+      const taskIndex = parseInt(index) - 1; // Convert to 0-based index
+      if (!isNaN(taskIndex) && taskIndex >= 0 && taskIndex < tasks.length) {
+        tasks[taskIndex] = newTask; // Update the task at the specified index
+        console.log(` Task ${index} edited to: ${newTask} `);
+      } else {
+        console.log(`Error: Task number ${index} does not exist. `);
+      }
+    }
+  }
+
 
 // The following line starts the application
 startApp("zeinab hoteit")
