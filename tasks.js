@@ -1,4 +1,7 @@
 
+const fs = require ('fs');
+const filepath = process.argv[2] || 'database.json'; 
+
 /**
  * Starts the application
  * This is the function that is run when the app starts
@@ -227,7 +230,7 @@ function check(text) {
       }
     }
 
-const fs = require ('fs');
+
 
 function saveData() {
   const data = JSON.stringify(tasks, null, 2); // Convert tasks array to JSON
