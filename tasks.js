@@ -121,7 +121,11 @@ function help(){
   `);
   }
 
-let tasks = []; //initialize empty array to store tasks\\
+let tasks = [
+  { text: "get milk", done: false },
+  { text: "do hm", done: true}
+   ]; //initialize empty array to store task
+
 
 function list(){
   if (tasks.length === 0){ //if ther r no tasks
@@ -129,7 +133,8 @@ function list(){
   } else { 
     console.log('task list:');
     tasks.forEach((task, index ) => {  // prnting each task with its index
-    console.log (`${index}. ${task} `); // prnts task with its nb
+       const status = task.done ? '[✔]' : '[]' ; //done or undone
+       console.log (`${index +1}. ${status} . ${task} `); // prnts task with its nb
     });
   }
 }
@@ -138,9 +143,9 @@ function list(){
 function add(text){
   const parts = text.trim().split(' '); // split input text
   const task = parts.slice(1).join(' '); //takes evrythng after the (add x)
-  if (task){ 
-     tasks.push(task); // adds task to the list
-     console.log(`task added: ${task} `); // prnts msg confrmng task was aded
+  if (taskText){ 
+     tasks.push( { text: taskText, done: false } ); // adds task to the list
+     console.log(`task added: ${taskText} `); // prnts msg confrmng task was aded
   } else { //no task dscrption is provided
      console.log('error');
   }
@@ -150,18 +155,20 @@ function add(text){
 
 function remove(text) {
     const parts = text.trim().split(' '); // Split input into parts
-    const index = parseInt(parts[1]) - 1; // Convert to 0-based index
-  
-    if (isNaN(index)) {   // If no valid index  provided, remove the last task
-       if (tasks.length > 0) {
+    const index = parts[1]; // asign the 2 word frm split inpt
+   
+    if (isNaN(index)) {   // cheks indx is NaN, rmv last task
+       if (tasks.length > 0) { // eza at least aando 1task
           console.log(`Removed task: ${tasks.pop() } ` );
-       } else {
-        console.log('Error: No tasks to remove.');
-       }
-    } else if (index >= 0 && index < tasks.length) {  // If the index is valid, remove the task at that index
-      console.log(`Removed task: ${tasks.splice(index, 1)} `);
-    } else {
-      console.log(`Error: Task number ${index + 1} does not exist.`);
+       }  else { //saret empty ma 3ad fi task ==0
+          console.log('Error: No tasks to remove.');
+       }  
+    }
+    else if (index >= 0 && index < tasks.length) {  //if true,rmv task at the given indx
+      console.log(`Removed task: ${tasks.splice(index, 1)} `); //rmv at positn specified
+    } 
+    else { 
+      console.log(`Error: Task number ${index + 1} does not exist.`); //
     }
   }
 
@@ -171,21 +178,24 @@ function edit(text){
     const index = parts[1]; 
     const newTask = parts.slice(2).join(' '); 
   
-    if (!index) {
-      console.log('Error: No task number or new text provided.');
-    } else if (!newTask && tasks.length > 0) {  // If only new text is provided, update the last task
-      tasks[tasks.length - 1] = index; // Update the last task to the new text
+    if (!index) { //input just edit
+      console.log('Error ');
+    } else if (!newTask && tasks.length > 0) {  //ther r existng tasks in the array
+      tasks[tasks.length - 1] = index; // updte last task in array
       console.log(`Last task edited to: ${index} `);
     } else {
-      const taskIndex = parseInt(index) - 1; // Convert to 0-based index
-      if (!isNaN(taskIndex) && taskIndex >= 0 && taskIndex < tasks.length) {
-        tasks[taskIndex] = newTask; // Update the task at the specified index
-        console.log(` Task ${index} edited to: ${newTask} `);
-      } else {
-        console.log(`Error: Task number ${index} does not exist. `);
-      }
-    }
-  }
+      const taskIndex = index -1; //cnvrts into 0-based indx
+      if (taskIndex >= 0 && taskIndex < tasks.length) { //cheks  is a valid index
+      tasks[taskIndex] = newTask; // updt task at specified indx wth new tsk
+      console.log(`Task ${index} edited to: ${newTask} `); 
+      } else {  //out of bounds
+      console.log(`error: task nb ${index} does not exist.`);
+        }
+       }   
+     }
+
+     
+  
 
 
 // The following line starts the application
